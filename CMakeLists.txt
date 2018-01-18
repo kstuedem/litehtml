@@ -15,6 +15,8 @@ if(NOT MSVC)
 	set(CMAKE_C_FLAGS_RELEASE "-std=c99 -O3")
 endif()
 
+add_definitions(-DLITEHTML_UTF8)
+
 set(SOURCE_LITEHTML src/background.cpp
                     src/box.cpp
                     src/context.cpp

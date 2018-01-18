@@ -245,7 +245,7 @@ namespace litehtml
 		font_variant_italic
 	};
 
-#define  font_weight_strings	_t("normal;bold;bolder;lighter100;200;300;400;500;600;700")
+#define  font_weight_strings	_t("normal;bold;bolder;lighter;100;200;300;400;500;600;700")
 
 	enum font_weight
 	{

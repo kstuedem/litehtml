@@ -157,7 +157,7 @@ litehtml::uint_ptr litehtml::document::add_font( const tchar_t* name, int size, 
 	{
 		font_style fs = (font_style) value_index(style, font_style_strings, fontStyleNormal);
 		int	fw = value_index(weight, font_weight_strings, -1);
-		if(fw >= 0)
+		if(fw >= 0 && fw < 4)
 		{
 			switch(fw)
 			{

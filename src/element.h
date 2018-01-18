@@ -19,7 +19,7 @@ namespace litehtml
 		typedef std::weak_ptr<litehtml::element>		weak_ptr;
 	protected:
 		std::weak_ptr<element>		m_parent;
-		std::weak_ptr<litehtml::document>	m_doc;
+		litehtml::document*			m_doc;
 		litehtml::box*				m_box;
 		elements_vector				m_children;
 		position					m_pos;
@@ -30,7 +30,7 @@ namespace litehtml
 		
 		virtual void select_all(const css_selector& selector, elements_vector& res);
 	public:
-		element(const std::shared_ptr<litehtml::document>& doc);
+		element(litehtml::document* doc);
 		virtual ~element();
 
 		// returns refer to m_pos member;
@@ -87,7 +87,7 @@ namespace litehtml
 		int							get_inline_shift_right();
 		void						apply_relative_shift(int parent_width);
 
-		std::shared_ptr<document>	get_document() const;
+		document*					get_document() const;
 
 		virtual elements_vector		select_all(const tstring& selector);
 		virtual elements_vector		select_all(const css_selector& selector);
@@ -392,8 +392,8 @@ namespace litehtml
 		return m_pos;
 	}
 
-	inline std::shared_ptr<document> element::get_document() const
+	inline document* element::get_document() const
 	{
-		return m_doc.lock();
+		return m_doc;
 	}
 }

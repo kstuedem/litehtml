@@ -2,7 +2,7 @@
 #include "el_text.h"
 #include "document.h"
 
-litehtml::el_text::el_text(const tchar_t* text, const std::shared_ptr<litehtml::document>& doc) : element(doc)
+litehtml::el_text::el_text(const tchar_t* text, litehtml::document* doc) : element(doc)
 {
 	if(text)
 	{
@@ -114,7 +114,7 @@ void litehtml::el_text::draw( uint_ptr hdc, int x, int y, const position* clip )
 		element::ptr el_parent = parent();
 		if (el_parent)
 		{
-			document::ptr doc = get_document();
+			document* doc = get_document();
 
 			uint_ptr font = el_parent->get_font();
 			litehtml::web_color color = el_parent->get_color(_t("color"), true, doc->get_def_color());

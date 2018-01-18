@@ -97,7 +97,7 @@ namespace litehtml
 		virtual void			select_all(const css_selector& selector, elements_vector& res);
 
 	public:
-		html_tag(const std::shared_ptr<litehtml::document>& doc);
+		html_tag(litehtml::document* doc);
 		virtual ~html_tag();
 
 		/* render functions */

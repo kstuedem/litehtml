@@ -8,7 +8,7 @@
 #include <locale>
 #include "el_before_after.h"
 
-litehtml::html_tag::html_tag(const std::shared_ptr<litehtml::document>& doc) : litehtml::element(doc)
+litehtml::html_tag::html_tag(litehtml::document* doc) : litehtml::element(doc)
 {
 	m_box_sizing			= box_sizing_content_box;
 	m_z_index				= 0;
@@ -317,7 +317,7 @@ void litehtml::html_tag::parse_styles(bool is_reparse)
 	}
 
 	init_font();
-	document::ptr doc = get_document();
+	document* doc = get_document();
 
 	m_el_position	= (element_position)	value_index(get_style_property(_t("position"),		false,	_t("static")),		element_position_strings,	element_position_fixed);
 	m_text_align	= (text_align)			value_index(get_style_property(_t("text-align"),		true,	_t("left")),		text_align_strings,			text_align_left);
@@ -1539,7 +1539,7 @@ void litehtml::html_tag::parse_background()
 		}
 	}
 
-	document::ptr doc = get_document();
+	document* doc = get_document();
 
 	doc->cvt_units(m_bg.m_position.x,		m_font_size);
 	doc->cvt_units(m_bg.m_position.y,		m_font_size);
@@ -4534,7 +4534,7 @@ void litehtml::html_tag::draw_children_box(uint_ptr hdc, int x, int y, const pos
 	pos.x += x;
 	pos.y += y;
 
-	document::ptr doc = get_document();
+	document* doc = get_document();
 
 	if (m_overflow > overflow_visible)
 	{

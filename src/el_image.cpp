@@ -2,7 +2,7 @@
 #include "el_image.h"
 #include "document.h"
 
-litehtml::el_image::el_image(const std::shared_ptr<litehtml::document>& doc) : html_tag(doc)
+litehtml::el_image::el_image(litehtml::document* doc) : html_tag(doc)
 {
 	m_display = display_inline_block;
 }
@@ -35,7 +35,7 @@ int litehtml::el_image::render( int x, int y, int max_width, bool second_pass )
 
 	m_pos.move_to(x, y);
 
-	document::ptr doc = get_document();
+	document* doc = get_document();
 
 	litehtml::size sz;
 	doc->container()->get_image_size(m_src.c_str(), 0, sz);

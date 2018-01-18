@@ -50,8 +50,6 @@ namespace litehtml
 	class document : public std::enable_shared_from_this<document>
 	{
 	public:
-		typedef std::shared_ptr<document>	ptr;
-		typedef std::weak_ptr<document>		weak_ptr;
 	private:
 		std::shared_ptr<element>			m_root;
 		document_container*					m_container;
@@ -72,7 +70,7 @@ namespace litehtml
 		document(litehtml::document_container* objContainer, litehtml::context* ctx);
 		virtual ~document();
 
-		litehtml::document_container*	container()	{ return m_container; }
+		litehtml::document_container*	container() const { return m_container; }
 		uint_ptr						get_font(const tchar_t* name, int size, const tchar_t* weight, const tchar_t* style, const tchar_t* decoration, font_metrics* fm);
 		int								render(int max_width, render_type rt = render_all);
 		void							draw(uint_ptr hdc, int x, int y, const position* clip);
@@ -96,8 +94,8 @@ namespace litehtml
 		bool                            match_lang(const tstring & lang);
 		void							add_tabular(const element::ptr& el);
 
-		static litehtml::document::ptr createFromString(const tchar_t* str, litehtml::document_container* objPainter, litehtml::context* ctx, litehtml::css* user_styles = 0);
-		static litehtml::document::ptr createFromUTF8(const char* str, litehtml::document_container* objPainter, litehtml::context* ctx, litehtml::css* user_styles = 0);
+		static litehtml::document* createFromString(const tchar_t* str, litehtml::document_container* objPainter, litehtml::context* ctx, litehtml::css* user_styles = 0);
+		static litehtml::document* createFromUTF8(const char* str, litehtml::document_container* objPainter, litehtml::context* ctx, litehtml::css* user_styles = 0);
 	
 	private:
 		litehtml::uint_ptr	add_font(const tchar_t* name, int size, const tchar_t* weight, const tchar_t* style, const tchar_t* decoration, font_metrics* fm);

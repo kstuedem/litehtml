@@ -3,7 +3,7 @@
 #include "document.h"
 
 
-litehtml::el_link::el_link(const std::shared_ptr<litehtml::document>& doc) : litehtml::html_tag(doc)
+litehtml::el_link::el_link(litehtml::document* doc) : litehtml::html_tag(doc)
 {
 
 }
@@ -17,7 +17,7 @@ void litehtml::el_link::parse_attributes()
 {
 	bool processed = false;
 
-	document::ptr doc = get_document();
+	document* doc = get_document();
 
 	const tchar_t* rel = get_attr(_t("rel"));
 	if(rel && !t_strcmp(rel, _t("stylesheet")))

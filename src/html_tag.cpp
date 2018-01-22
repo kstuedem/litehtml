@@ -2948,7 +2948,25 @@ void litehtml::html_tag::draw_list_marker( uint_ptr hdc, const position &pos )
 	lm.pos.x		= pos.x;
 	lm.pos.width	= sz_font	- sz_font * 2 / 3;
 	lm.pos.height	= sz_font	- sz_font * 2 / 3;
-	lm.pos.y		= pos.y		+ ln_height / 2 - lm.pos.height / 2;
+	if (m_list_style_type == list_style_type_decimal)
+	{
+		font_metrics fm;
+		get_font(&fm);
+
+		int base_line = fm.base_line();
+		int height = fm.height;
+		if (height)
+		{
+			base_line += (line_height() - height) / 2;
+		}
+
+		lm.pos.y = pos.y + line_height() - base_line - fm.ascent;
+		lm.pos.height = fm.height;
+	}
+	else
+	{
+	    lm.pos.y = pos.y + ln_height / 2 - lm.pos.height / 2;
+	}
 
 	if(img_size.width && img_size.height)
 	{
@@ -2964,14 +2982,50 @@ void litehtml::html_tag::draw_list_marker( uint_ptr hdc, const position &pos )
 		lm.pos.width	= img_size.width;
 		lm.pos.height	= img_size.height;
 	}
+
+	int value = 1;
+	if (m_list_style_type == list_style_type_decimal)
+	{
+		// find the ordinal for this list item
+		int num = (int)parent()->get_children_count();
+		
+		for (int i = 0; i < num; i++)
+		{
+			const element::ptr child = parent()->get_child(i);
+			const tchar_t* tag_name = child->get_tagName();
+	
+			if (child.get() == this)
+				break;
+			if (t_strcmp(tag_name, _t("li")) == 0)
+				value++;
+		}
+	}
+
 	if(m_list_style_position == list_style_position_outside)
 	{
-		lm.pos.x -= sz_font;
+		if (m_list_style_type != list_style_type_decimal)
+		{
+			lm.pos.x -= sz_font;
+		}
 	}
 
 	lm.color = get_color(_t("color"), true, web_color(0, 0, 0));
 	lm.marker_type = m_list_style_type;
-	get_document()->container()->draw_list_marker(hdc, lm);
+
+	if (m_list_style_type == list_style_type_decimal)
+	{
+		tchar_t buffer[20];
+		t_itoa(value, buffer, 20, 10);
+		tstring marker = buffer;
+		marker += _t(". ");
+		int width = get_document()->container()->text_width(marker.c_str(), m_font);
+		lm.pos.x -= width;
+		get_document()->container()->draw_text(hdc, marker.c_str(), m_font, lm.color, lm.pos);
+	}
+	else
+	{
+		get_document()->container()->draw_list_marker(hdc, lm);
+	}
 }
 
 void litehtml::html_tag::draw_children( uint_ptr hdc, int x, int y, const position* clip, draw_flag flag, int zindex )

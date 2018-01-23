@@ -2572,7 +2572,7 @@ int litehtml::html_tag::new_box(const element::ptr &el, int max_width, line_cont
 
 		font_metrics fm;
 		get_font(&fm);
-		m_boxes.emplace_back(std::unique_ptr<line_box>(new line_box(line_ctx.top, line_ctx.left + first_line_margin + text_indent, line_ctx.right, line_height(), fm, m_text_align)));
+		m_boxes.emplace_back(std::unique_ptr<line_box>(new line_box(line_ctx.top, line_ctx.left + first_line_margin + text_indent, line_ctx.right, fm, m_text_align)));
 	} else
 	{
 		m_boxes.emplace_back(std::unique_ptr<block_box>(new block_box(line_ctx.top, line_ctx.left, line_ctx.right)));

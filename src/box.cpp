@@ -169,7 +169,7 @@ void litehtml::line_box::finish(bool last_box)
 	}
 
 	int base_line	= m_font_metrics.base_line();
-	int line_height = m_line_height;
+	int line_height = 0;
 
 	int add_x = 0;
 	switch(m_text_align)
@@ -201,6 +201,10 @@ void litehtml::line_box::finish(bool last_box)
 			base_line	= std::max(base_line,	fm.base_line());
 			line_height = std::max(line_height, el->line_height());
 			m_height = std::max(m_height, fm.height);
+		}
+		else if(el->get_display() == display_inline_block)
+		{
+			line_height = std::max(line_height, el->line_height());
 		}
 		el->m_pos.x += add_x;
 	}

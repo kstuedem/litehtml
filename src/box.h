@@ -81,17 +81,15 @@ namespace litehtml
 		elements_vector			m_items;
 		int						m_height;
 		int						m_width;
-		int						m_line_height;
 		font_metrics			m_font_metrics;
 		int						m_baseline;
 		text_align				m_text_align;
 	public:
-		line_box(int top, int left, int right, int line_height, font_metrics& fm, text_align align) : box(top, left, right)
+		line_box(int top, int left, int right, font_metrics& fm, text_align align) : box(top, left, right)
 		{
 			m_height		= 0;
 			m_width			= 0;
 			m_font_metrics	= fm;
-			m_line_height	= line_height;
 			m_baseline		= 0;
 			m_text_align	= align;
 		}

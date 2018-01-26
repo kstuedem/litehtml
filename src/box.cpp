@@ -202,7 +202,7 @@ void litehtml::line_box::finish(bool last_box)
 			line_height = std::max(line_height, el->line_height());
 			m_height = std::max(m_height, fm.height);
 		}
-		else if(el->get_display() == display_inline_block)
+		else if(el->get_display() == display_inline_block && is_break_only())
 		{
 			line_height = std::max(line_height, el->line_height());
 		}
@@ -303,9 +303,14 @@ bool litehtml::line_box::can_hold(const element::ptr &el, white_space ws)
 {
 	if(!el->is_inline_box()) return false;
 
-	if(el->is_break())
+	if (!m_items.empty() && m_items.back()->is_break())
 	{
 		return false;
+	}
+
+	if(el->is_break())
+	{
+		return true;
 	}
 
 	if(ws == white_space_nowrap || ws == white_space_pre)

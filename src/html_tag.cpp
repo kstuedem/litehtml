@@ -2948,24 +2948,19 @@ void litehtml::html_tag::draw_list_marker( uint_ptr hdc, const position &pos )
 	lm.pos.x		= pos.x;
 	lm.pos.width	= sz_font	- sz_font * 2 / 3;
 	lm.pos.height	= sz_font	- sz_font * 2 / 3;
+
+	int base_line = m_box->baseline();
 	if (m_list_style_type == list_style_type_decimal)
 	{
 		font_metrics fm;
 		get_font(&fm);
 
-		int base_line = fm.base_line();
-		int height = fm.height;
-		if (height)
-		{
-			base_line += (line_height() - height) / 2;
-		}
-
-		lm.pos.y = pos.y + line_height() - base_line - fm.ascent;
+		lm.pos.y = pos.y + m_box->height() - base_line - fm.ascent;
 		lm.pos.height = fm.height;
 	}
 	else
 	{
-	    lm.pos.y = pos.y + ln_height / 2 - lm.pos.height / 2;
+	    lm.pos.y = pos.y + m_box->height() - base_line - ln_height / 2;
 	}
 
 	if(img_size.width && img_size.height)

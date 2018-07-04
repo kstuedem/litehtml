@@ -147,9 +147,15 @@ void litehtml::line_box::add_element(const element::ptr &el)
 
 void litehtml::line_box::finish(bool last_box)
 {
-	if( is_empty() || (!is_empty() && last_box && is_break_only()) )
+	if (is_empty())
 	{
 		m_height = 0;
+		return;
+	}
+
+	if (!is_empty() && last_box && is_break_only())
+	{
+		m_height = m_items.front()->line_height();
 		return;
 	}
 
